@@ -27,13 +27,11 @@ function withFeedback<Args extends unknown[], T>(
   };
 }
 
-function addToastFeedback<
+function useToastFeedback<
   Args extends unknown[],
   T extends { message: string },
->(
-  toast: ReturnType<typeof useToast>["toast"],
-  fn: (...args: Args) => Promise<T>,
-): (...args: Args) => Promise<T> {
+>(fn: (...args: Args) => Promise<T>): (...args: Args) => Promise<T> {
+  const { toast } = useToast();
   return withFeedback(fn, {
     onSuccess: (result) => {
       toast({ description: result.message });
@@ -45,27 +43,18 @@ function addToastFeedback<
 }
 
 function useUpvote(userId: number) {
-  const { toast } = useToast();
-  return useActionState(
-    addToastFeedback(toast, upvoteUser.bind(null, userId)),
-    null,
-  );
+  const upvoteWithToast = useToastFeedback(upvoteUser.bind(null, userId));
+  return useActionState(upvoteWithToast, null);
 }
 
 function useDownvote(userId: number) {
-  const { toast } = useToast();
-  return useActionState(
-    addToastFeedback(toast, downvoteUser.bind(null, userId)),
-    null,
-  );
+  const downvoteWithToast = useToastFeedback(downvoteUser.bind(null, userId));
+  return useActionState(downvoteWithToast, null);
 }
 
 function useDelete(userId: number) {
-  const { toast } = useToast();
-  return useActionState(
-    addToastFeedback(toast, deleteUser.bind(null, userId)),
-    null,
-  );
+  const deleteWithToast = useToastFeedback(deleteUser.bind(null, userId));
+  return useActionState(deleteWithToast, null);
 }
 
 const User = ({ user }: UserProps) => {
