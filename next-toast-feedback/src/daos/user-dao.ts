@@ -26,14 +26,14 @@ export const upvoteUser = async (userId: number) => {
 
   const user = users.find((user) => user.id === userId);
   if (!user) {
-    return { message: "User not found", timestamp: Date.now() };
+    return { message: "User not found" };
   }
 
   user.upvotes += 1;
 
   revalidatePath("/");
 
-  return { message: "Vote increased", timestamp: Date.now() };
+  return { message: "Vote increased" };
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -41,7 +41,7 @@ export const downvoteUser = async (userId: number) => {
   await new Promise((resolve) => setTimeout(resolve, 250));
 
   // force error for debugging purposes
-  return { message: "Something went wrong", timestamp: Date.now() };
+  return { message: "Something went wrong" };
 };
 
 export const deleteUser = async (userId: number) => {
@@ -49,10 +49,12 @@ export const deleteUser = async (userId: number) => {
 
   const index = users.findIndex((user) => user.id === userId);
   if (index === -1) {
-    return { message: "User not found", timestamp: Date.now() };
+    return { message: "User not found" };
   }
 
   users.splice(index, 1);
 
-  return { message: "User deleted", timestamp: Date.now() };
+  revalidatePath("/");
+
+  return { message: "User deleted" };
 };

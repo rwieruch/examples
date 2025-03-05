@@ -14,7 +14,7 @@ const FormButton = ({
   return (
     <form action={action}>
       <button type="submit" disabled={pending}>
-        {children}
+        {pending ? "..." : children}
       </button>
     </form>
   );
