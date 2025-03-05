@@ -54,10 +54,5 @@ export const deleteUser = async (userId: number) => {
 
   users.splice(index, 1);
 
-  revalidatePath("/");
-  // see refreshAllUnfortunatelyOnClient() as alternative/workaround
-  // otherwise we do not see toast message for deleteUser
-  // due to invalidate + unmount before toast is shown
-
   return { message: "User deleted", timestamp: Date.now() };
 };
