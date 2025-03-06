@@ -1,5 +1,5 @@
-import { User } from "@/components/user";
-import { getUsers } from "@/daos/user-dao";
+import { getUsers } from "@/features/user/user-dao";
+import { UserItem } from "@/features/user/user-item";
 
 const Home = async () => {
   const users = await getUsers();
@@ -7,7 +7,7 @@ const Home = async () => {
   return (
     <div>
       {users.map((user) => (
-        <User key={user.id} user={user} />
+        <UserItem key={user.id} user={user} />
       ))}
     </div>
   );
